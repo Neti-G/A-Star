@@ -18,12 +18,8 @@ public class AStarAlgorithm {
      * Returns null if no path is found.
      */
     public ArrayList<Node> AStar(Node start, Node goal){
-        PriorityQueue<Node> openSet = new PriorityQueue<Node>(new Comparator<Node>() {
-            public int compare(Node n1, Node n2) {
-                return Double.compare(n1.getF(), n2.getF());
-            }
-        });
-        HashSet<Node> closedSet = new HashSet<Node>();
+        PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingDouble(Node::getF));
+        HashSet<Node> closedSet = new HashSet<>();
     
         start.setG(0);
         start.setH(start.calculateAirDistance(goal));
@@ -33,7 +29,7 @@ public class AStarAlgorithm {
         while (!openSet.isEmpty()) {
             Node current = openSet.poll();
             if (current.equals(goal)) {
-                ArrayList<Node> path = new ArrayList<Node>();
+                ArrayList<Node> path = new ArrayList<>();
                 Node node = current;
                 while (node != null) {
                     path.add(node);

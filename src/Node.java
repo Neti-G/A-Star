@@ -8,22 +8,22 @@ public class Node {
     /**
      * The name of the node(location).
      */
-    private String name;
+    private final String name;
 
     /**
      * The map of all the neighbor nodes and the distances to them.
      */
-    private Map<Node, Integer> neighborNodes;
+    private final Map<Node, Integer> neighborNodes;
 
     /**
      * The latitude of the node(location).
      */
-    private double latitude;
+    private final double latitude;
 
     /**
      * The longitude of the node(location).
      */
-    private double longitude;
+    private final double longitude;
 
     /**
      * Constructs a new Node object with the given name, latitude, longitude,
@@ -32,33 +32,34 @@ public class Node {
      * @param name      the name of the node(location).
      * @param latitude  the latitude of the node(location).
      * @param longitude the longitude of the node(location).
-     * @param neighbors the nuber of neighbors the node has.
+     * @param neighbors the number of neighbors the node has.
      */
     public Node(String name, double latitude, double longitude, int neighbors) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
-        neighborNodes = new HashMap<Node, Integer>(neighbors);
+        neighborNodes = new HashMap<>(neighbors);
     }
 
-    /**
-     * Constructs a new Node object with the given name, latitude, longitude,
-     * and map of neighbor nodes.
-     * 
-     * @param name          the name of the node(location).
-     * @param latitude      the latitude of the node(location).
-     * @param longitude     the longitude of the node(location).
-     * @param neighborNodes the map of all the neighbor nodes and their distances.
-     */
-    public Node(String name, double latitude, double longitude, Map<Node, Integer> neighborNodes) {
-        this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.neighborNodes = new HashMap<Node, Integer>(neighborNodes.size());
-        for (Map.Entry<Node, Integer> e : neighborNodes.entrySet()) {
-            this.addNeighbor(e.getKey(), e.getValue());
-        }
-    }
+//  NEVER USED
+//    /**
+//     * Constructs a new Node object with the given name, latitude, longitude,
+//     * and map of neighbor nodes.
+//     *
+//     * @param name          the name of the node(location).
+//     * @param latitude      the latitude of the node(location).
+//     * @param longitude     the longitude of the node(location).
+//     * @param neighborNodes the map of all the neighbor nodes and their distances.
+//     */
+//    public Node(String name, double latitude, double longitude, Map<Node, Integer> neighborNodes) {
+//        this.name = name;
+//        this.latitude = latitude;
+//        this.longitude = longitude;
+//        this.neighborNodes = new HashMap<>(neighborNodes.size());
+//        for (Map.Entry<Node, Integer> e : neighborNodes.entrySet()) {
+//            this.addNeighbor(e.getKey(), e.getValue());
+//        }
+//    }
 
     /**
      * Returns the name of this node(location).
@@ -69,23 +70,25 @@ public class Node {
         return name;
     }
 
-    /**
-     * Returns the latitude of this node(location).
-     * 
-     * @return the latitude of this node.
-     */
-    public double getLatitude() {
-        return latitude;
-    }
+//  NEVER USED
+//    /**
+//     * Returns the latitude of this node(location).
+//     *
+//     * @return the latitude of this node.
+//     */
+//    public double getLatitude() {
+//        return latitude;
+//    }
 
-    /**
-     * Returns the longitude of this node(location).
-     * 
-     * @return the longitude of this node.
-     */
-    public double getLongitude() {
-        return longitude;
-    }
+//  NEVER USED
+//    /**
+//     * Returns the longitude of this node(location).
+//     *
+//     * @return the longitude of this node.
+//     */
+//    public double getLongitude() {
+//        return longitude;
+//    }
 
     /**
      * The f-score of this node, which is the sum of the g-score and h-score.
@@ -208,10 +211,8 @@ public class Node {
      * @return map of the neighbors of this node.
      */
     public Map<Node, Integer> getNeighbors() {
-        Map<Node, Integer> newNeighborNodes = new HashMap<Node, Integer>(neighborNodes.size());
-        for (Map.Entry<Node, Integer> e : neighborNodes.entrySet()) {
-            newNeighborNodes.put(e.getKey(), e.getValue());
-        }
+        Map<Node, Integer> newNeighborNodes = new HashMap<>(neighborNodes.size());
+        newNeighborNodes.putAll(neighborNodes);
         return newNeighborNodes;
     }
 
