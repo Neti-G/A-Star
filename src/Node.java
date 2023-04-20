@@ -5,10 +5,11 @@ import java.util.Map;
  * The Node class represents a location in a graph.
  */
 public class Node {
+
     /**
      * The name of the node(location).
      */
-    private String name;
+    private final String name;
 
     /**
      * The map of all the neighbor nodes and the distances to them.
@@ -18,12 +19,27 @@ public class Node {
     /**
      * The latitude of the node(location).
      */
-    private double latitude;
+    private final double latitude;
 
     /**
      * The longitude of the node(location).
      */
-    private double longitude;
+    private final double longitude;
+
+    /**
+     * Constructs a new Node object with the given name, latitude, longitude,
+     * and an empty map for the neighbor nodes.
+     * 
+     * @param name      the name of the node(location).
+     * @param latitude  the latitude of the node(location).
+     * @param longitude the longitude of the node(location).
+     */
+    public Node(String name, double latitude, double longitude) {
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        neighborNodes = new HashMap<Node, Integer>();
+    }
 
     /**
      * Constructs a new Node object with the given name, latitude, longitude,
@@ -32,7 +48,7 @@ public class Node {
      * @param name      the name of the node(location).
      * @param latitude  the latitude of the node(location).
      * @param longitude the longitude of the node(location).
-     * @param neighbors the nuber of neighbors the node has.
+     * @param neighbors the number of neighbors the node has.
      */
     public Node(String name, double latitude, double longitude, int neighbors) {
         this.name = name;
@@ -105,11 +121,6 @@ public class Node {
     private double h;
 
     /**
-     * The node that this node came from in the A* algorithm.
-     */
-    private Node cameFrom;
-
-    /**
      * Gets the f-score of this node, which is the sum of the g-score and h-score.
      * 
      * @return the f-score of this node.
@@ -117,6 +128,11 @@ public class Node {
     public double getF() {
         return f;
     }
+
+    /**
+     * The node that this node came from in the A* algorithm.
+     */
+    private Node cameFrom;
 
     /**
      * Sets the f-score of this node, which is the sum of the g-score and h-score.
@@ -186,8 +202,7 @@ public class Node {
     }
 
     /**
-     * Adds neighbor nodes to the map that keeps track of all the neighbors to this
-     * node.
+     * Adds neighbor node to this node.
      * 
      * @param otherNode the node to be added.
      * @param distance  the distance from the node.
@@ -203,15 +218,28 @@ public class Node {
     }
 
     /**
+     * Removes neighbor from this node.
+     * 
+     * @param neighbor the node to be removed.
+     * @return 1 if the neighbor is removed, 0 if the node is not a neighbor to this node.
+     */
+    public int removeNeighbor(Node neighbor) {
+        if (neighborNodes.containsKey(neighbor)){
+            neighborNodes.remove(neighbor);
+            neighbor.removeNeighbor(this);
+            return 1;
+        }
+        return 0;
+    }
+
+    /**
      * Returns the map with all the neighbor nodes of this node.
      * 
      * @return map of the neighbors of this node.
      */
     public Map<Node, Integer> getNeighbors() {
         Map<Node, Integer> newNeighborNodes = new HashMap<Node, Integer>(neighborNodes.size());
-        for (Map.Entry<Node, Integer> e : neighborNodes.entrySet()) {
-            newNeighborNodes.put(e.getKey(), e.getValue());
-        }
+        newNeighborNodes.putAll(neighborNodes);
         return newNeighborNodes;
     }
 
